@@ -19,4 +19,29 @@ class ProfilesController extends Controller
         $profile = Profile::findOrFail($id);
         return view('profile.show', compact('profile'));
     }
+
+    public function create()
+    {
+        return view('profile.create');
+    }
+
+    public function store(Request $request)
+    {
+        $name = $request->name;
+        $email = $request->email;
+        $bio = $request->bio;
+        $password = $request->password;
+
+        Profile::create([
+            'name'=>$name,
+            'email'=>$email,
+            'bio'=>$bio,
+            'password'=>$password
+        ]);
+
+        //a short syntax but with less control :
+        //Profile::create($request->post())
+
+        return redirect()->route("profiles.index");
+    }
 }
